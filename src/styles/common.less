@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+}
+
+body {
+  display: flex;
+  position: relative;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+
+  user-select: none;
+  background-color: rgb(0, 0, 0) !important;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+}
+
+#app {
+  margin: 0 auto;
+  width: 1920px;
+  height: 1080px;
+
+  background-image: url("../assets/bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+@font-face {
+  font-family: TRENDS;
+  src: url(../assets/fonts/TRENDS.TTF);
+}
+
+@font-face {
+  font-family: DIN-Medium;
+  src: url(../assets/fonts/DIN-Medium.otf);
+}
+
+.bg-cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-contain {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.bg-100 {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+
+.comm-bg {
+  padding: 13px 15px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  //background-position: center;
+  //background-image: url("../assets/kuang-bg.png");
+}
+
+// 隐藏滚动条
+.my-no-scrollbar {
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+//蓝色滚动条样式
+.my-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    //height: 1vh;
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    //border-radius: 10px;
+    background-color: rgba(69, 198, 241, .6);
+  }
+}
+
+// 自定义的一个table
+.my-table {
+  .tbody {
+    height: 180px;
+    overflow: auto;
+  }
+
+  .tr {
+    display: flex;
+
+    .td, .th {
+      text-align: center;
+      width: 32%;
+      flex-shrink: 0;
+    }
+
+    .td {
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 400;
+      color: #C7FFFF;
+      padding: 12px 0;
+      border-bottom: 1px dashed #515159;
+    }
+
+    .th {
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 400;
+      color: #45C6F1;
+    }
+  }
+
+  .trr {
+    padding: 8px 6px 8px 0;
+    border-top: 1px solid #022C40;
+    border-bottom: 1px solid #022C40;
+  }
+}
+
+/**
+闪一下
+ */
+@keyframes appear {
+  0% {
+    opacity: 0.4;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.4;
+  }
+  60% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.ani-appear {
+  animation: appear 1.2s linear;
+}
