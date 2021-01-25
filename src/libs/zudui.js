@@ -77,7 +77,7 @@ export const zudui_suanfa = (persons) => {
 }
 
 // 工具函数
-function _power_sum(arr) {
+export function _power_sum(arr) {
     return arr.reduce((sum, n) => sum + n)
 }
 

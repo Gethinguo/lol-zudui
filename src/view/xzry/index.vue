@@ -10,6 +10,9 @@
                 </div>
             </div>
         </div>
+        <div>
+            <p>选择人数：{{selected.length}}</p>
+        </div>
         <div class="next" @click="next">
             下一步
         </div>

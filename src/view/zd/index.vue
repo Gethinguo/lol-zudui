@@ -7,7 +7,9 @@
         <div class="content">
             <div class="left">
                 <div class="list">
-                    <div class="cell" v-for="(v,i) in left" :key="v.weizhi">
+                    <div class="cell" v-for="(v,i) in left" :key="v.weizhi" draggable="true"
+                         @dragstart="ondragstart($event,v,i,'left')"
+                         @dragend="ondragend" @dragover.stop="ondragover" @drop="ondrop($event,v,i,'left')">
                         <div>
                             <p>{{v.person.name}}</p>
                             <p>{{v.person.power}}</p>
@@ -24,7 +26,9 @@
                 </div>
             </div>
             <div class="right">
-                <div class="cell" v-for="(v,i) in right" :key="v.weizhi">
+                <div class="cell" v-for="(v,i) in right" :key="v.weizhi" draggable="true"
+                     @dragstart="ondragstart($event,v,i,'right')"
+                     @dragend="ondragend" @dragover.stop="ondragover" @drop="ondrop($event,v,i,'right')">
                     <div>
                         <p>{{v.person.name}}</p>
                         <p>{{v.person.power}}</p>
@@ -40,12 +44,15 @@
                 </div>
             </div>
         </div>
+        <div class="caozuo">
+            <div class="btn">确认结果</div>
+        </div>
 
     </div>
 </template>
 
 <script>
-    import {zudui_suanfa} from '@/libs/zudui'
+    import {zudui_suanfa,_power_sum} from '@/libs/zudui'
 
     export default {
         name: "index",
@@ -58,8 +65,8 @@
                 power1: 0,
                 power2: 0,
                 // 位置锲合度
-                wzPor1:0,
-                wzPor2:0,
+                wzPor1: 0,
+                wzPor2: 0,
 
                 allzuhe: [], // 所有的组合方式
                 allzuheIndex: 0, // 所有的组合方式
@@ -76,7 +83,16 @@
                     {weizhi: '中', person: {}},
                     {weizhi: 'AD', person: {}},
                     {weizhi: '辅', person: {}},
-                ]
+                ],
+
+                // 拖动参数
+                dragObj: {},
+                dragtype: 'left',
+                dragIndex: 0,
+
+                dragDown: {},
+                dragDowntype: 'right',
+                dragDownIndex: 0,
             }
         },
         mounted() {
@@ -142,6 +158,59 @@
             next_zuhe() {
                 this.allzuheIndex++
                 this.getRes()
+            },
+            ondragstart(e, v, index, type) {
+                console.log('开始拖动')
+                console.log(v)
+
+                this.dragObj = v.person
+                this.dragtype = type
+                this.dragIndex = index
+            },
+            ondragend(e) {
+                // console.log('结束拖动')
+            },
+            ondrop(e, v, index, type) {
+                console.log('拖动放下')
+                console.log(v)
+                this.dragDown = v.person
+                this.dragDowntype = type
+                this.dragDownIndex = index
+                // 下面 调整顺序，并重新计算战力和锲合度
+                this.getNewTeam()
+            },
+            ondragenter(e) {
+                // console.log('拖动进入')
+            },
+            ondragover(e) {
+                // console.log('拖动进入')
+                e.preventDefault()
+            },
+            getNewTeam() {
+                if (this.dragtype === 'left') {
+                    if (this.dragDowntype === 'left') {
+                        this.left[this.dragIndex].person = this.dragDown
+                        this.left[this.dragDownIndex].person = this.dragObj
+                    }
+                    if (this.dragDowntype === 'right') {
+                        this.right[this.dragDownIndex].person = this.dragObj
+                        this.left[this.dragIndex].person = this.dragDown
+                    }
+                }
+                if (this.dragtype === 'right') {
+                    if (this.dragDowntype === 'left') {
+                        this.left[this.dragDownIndex].person = this.dragObj
+                        this.right[this.dragIndex].person = this.dragDown
+                    }
+                    if (this.dragDowntype === 'right') {
+                        this.right[this.dragDownIndex].person = this.dragObj
+                        this.right[this.dragIndex].person = this.dragDown
+                    }
+                }
+                let arr1 = this.left.map((p) => Number(p.person.power))
+                let arr2 = this.right.map((p) => Number(p.person.power))
+                this.power1 = _power_sum(arr1)
+                this.power2 = _power_sum(arr2)
             }
         }
     }
@@ -177,7 +246,8 @@
             .jieguo {
                 font-size: 25px;
                 color: aquamarine;
-                p{
+
+                p {
                     margin: 0 0 20px 0;
                 }
             }
@@ -200,6 +270,7 @@
 
     .btn {
         display: inline-block;
+        cursor: pointer;
         padding: 5px 8px;
         margin: 0 10px 10px 0;
         border: 1px solid #eeeeee;

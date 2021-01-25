@@ -36,3 +36,12 @@ export const $getJson = function (url) {
     })
 }
 
+/**
+ * 在打包上传的时候 忽略console.log 打印
+ */
+export function rewirteLog() {
+    console.log = (function(log) {
+        return process.env.NODE_ENV === 'development' ? log : function() {
+        }
+    }(console.log))
+}
