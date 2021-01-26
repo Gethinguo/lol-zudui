@@ -13,6 +13,8 @@ serverl 是node 写的一个小服务，主要用来存 组队结果，和查看
 157
 scp -r serverl root@172.16.200.157:/data/casair_nginx/html
 
+scp -r public/json root@172.16.200.157:/data/casair_nginx/html/lol-zudui
+
 163
 scp -P 2201 -r serverl root@117.132.4.163:/data/casair_nginx/html
 
