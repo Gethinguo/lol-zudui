@@ -7,7 +7,7 @@ let filePath = 'data/srsrecord'
 
 //测试157
 // const ip = "172.16.200.157";
-// const port = "50001";
+// const port = "50007";
 // const fileIp = "172.16.200.157";
 // const filePort = "22";
 // filePath = 'data/casair_nginx/html'
@@ -20,18 +20,25 @@ let filePath = 'data/srsrecord'
 // filePath = 'data/smx/nginx/html'
 
 // 莱西华商金岸
-const ip = "117.132.4.163";
-const port = "50001";
-const fileIp = "117.132.4.163";
-const filePort = "2201";
-filePath = 'data/casair_nginx/html'
+// const ip = "117.132.4.163";
+// const port = "50007";
+// const fileIp = "117.132.4.163";
+// const filePort = "2201";
+// filePath = 'data/casair_nginx/html'
+
+// 刘家村
+const ip = "117.132.2.130";
+const port = "50007";
+const fileIp = "117.132.2.130";
+const filePort = "22";
+filePath = 'casair_nginx/html'
 
 
 let did = `lol-zudui`;
 
 
 //设置请求地址, 现在发布给为了相对路径，不需要再改接口地址
-// setIpPort()
+setIpPort()
 //上传
 tServer()
 

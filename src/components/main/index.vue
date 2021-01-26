@@ -25,6 +25,7 @@
 <script>
     import moment from "moment"
     import {timer} from 'rxjs'
+    import {getUrlKey} from "@/libs/util";
 
     export default {
         name: "index",
@@ -40,6 +41,11 @@
             }
         },
         mounted() {
+            let type = getUrlKey('type')
+            if (type != 0) {
+                this.list = [{text: '结果', name: 'jg'}]
+            }
+
             timer(0, 1000).subscribe(v => {
                 this.date = moment().format('YYYY-MM-DD')
                 this.time = moment().format('HH:mm:ss')

@@ -7,7 +7,7 @@ export default {
      * @description api请求基础路径
      */
     baseUrl: {
-        dev: 'http://172.16.200.86:52222/',
-        pro: config.baseIp,
+        dev: 'http://localhost:50007/',
+        pro: config.baseUrl,
     },
 }

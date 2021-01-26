@@ -1,3 +1,3 @@
 const config = {
-    baseIp: 'http://172.16.200.86:52222/'
+    baseUrl: 'http://117.132.4.163:50007/'
 }

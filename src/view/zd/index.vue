@@ -2,7 +2,7 @@
     <div class="main">
         <div class="caozuo">
             <div class="btn" @click="reset_all">重新组队</div>
-            <div class="btn" @click="next_zuhe">下个可能性</div>
+            <div class="btn" @click="next_zuhe">下个组合</div>
         </div>
         <div class="content">
             <div class="left">
@@ -45,14 +45,21 @@
             </div>
         </div>
         <div class="caozuo">
-            <div class="btn">确认结果</div>
+            <div class="btn" @click="queding">确认结果</div>
+        </div>
+        <div class="shuoming">
+            <p class="title">说明</p>
+            <p>1.点'下个组合'可以看另一种可能性,一般用这个</p>
+            <p>2.点'重新组队'会全部重排，耗时很多</p>
+            <p>3.可以鼠标拖动调整位置，战力和锲合度会变化</p>
+            <p>4.点'确定结果'，就发布出去，别人可以看到了</p>
         </div>
 
     </div>
 </template>
 
 <script>
-    import {zudui_suanfa,_power_sum} from '@/libs/zudui'
+    import {zudui_suanfa, _power_sum} from '@/libs/zudui'
 
     export default {
         name: "index",
@@ -84,6 +91,7 @@
                     {weizhi: 'AD', person: {}},
                     {weizhi: '辅', person: {}},
                 ],
+                positionsObj: {0: '上', 1: '野', 2: '中', 3: 'AD', 4: '辅'},
 
                 // 拖动参数
                 dragObj: {},
@@ -113,10 +121,10 @@
             },
             getRes() {
                 const zuhe = this.allzuhe[this.allzuheIndex]
-                this.power1 = zuhe.po1
-                this.power2 = zuhe.po2
-                this.wzPor1 = zuhe.wzPor1
-                this.wzPor2 = zuhe.wzPor2
+                // this.power1 = zuhe.po1
+                // this.power2 = zuhe.po2
+                // this.wzPor1 = zuhe.wzPor1
+                // this.wzPor2 = zuhe.wzPor2
                 zuhe.persons.forEach((v1, i1) => {
                     if (i1 < 5) {
                         this.left.forEach((v2, i2) => {
@@ -132,10 +140,7 @@
                         })
                     }
                 })
-                console.log('结果')
-                // console.log(this.allzuhe)
-                console.log(this.left)
-                console.log(this.right)
+                this.getNewPower()
             },
             randomSort(arr) {
                 // this.lolPersons.sort(function () {
@@ -160,9 +165,6 @@
                 this.getRes()
             },
             ondragstart(e, v, index, type) {
-                console.log('开始拖动')
-                console.log(v)
-
                 this.dragObj = v.person
                 this.dragtype = type
                 this.dragIndex = index
@@ -171,8 +173,6 @@
                 // console.log('结束拖动')
             },
             ondrop(e, v, index, type) {
-                console.log('拖动放下')
-                console.log(v)
                 this.dragDown = v.person
                 this.dragDowntype = type
                 this.dragDownIndex = index
@@ -207,10 +207,52 @@
                         this.right[this.dragIndex].person = this.dragDown
                     }
                 }
+                this.getNewPower()
+            },
+            /**
+             * 重新计算战斗力
+             */
+            getNewPower(){
                 let arr1 = this.left.map((p) => Number(p.person.power))
                 let arr2 = this.right.map((p) => Number(p.person.power))
                 this.power1 = _power_sum(arr1)
                 this.power2 = _power_sum(arr2)
+
+                const wzPor1 = this.left.map((p, pi) => {
+                    let wz = this.positionsObj[pi]
+                    let wzValue = p.person.weizhi.indexOf(wz)
+                    if (wzValue > -1) {
+                        return (-wzValue + 5) * 200
+                    } else {
+                        return 0
+                    }
+                })
+                const wzPor2 = this.right.map((p, pi) => {
+                    let wz = this.positionsObj[pi]
+                    let wzValue = p.person.weizhi.indexOf(wz)
+                    if (wzValue > -1) {
+                        return (-wzValue + 5) * 200
+                    } else {
+                        return 0
+                    }
+                })
+
+                this.wzPor1 = _power_sum(wzPor1)
+                this.wzPor2 = _power_sum(wzPor2)
+            },
+            async queding() {
+                let zudui = {
+                    left: this.left,
+                    right: this.right,
+                }
+                const re =await this.$fetch.post('setZudui', {zudui})
+                console.log('几个')
+                console.log(re)
+                if(re == 200){
+                    alert('发布成功！')
+                }else{
+                    alert('出问题了！')
+                }
             }
         }
     }
@@ -265,6 +307,19 @@
                 display: inline-block;
                 padding: 0 10px 0 0;
             }
+        }
+    }
+
+    .shuoming {
+        margin: 10px 0 0 0;
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        p {
+            margin: 0 0 5px 0;
         }
     }
 
