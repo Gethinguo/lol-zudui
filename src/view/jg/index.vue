@@ -9,7 +9,7 @@
                     <div class="cell" v-for="(v,i) in left" :key="v.weizhi">
                         <div>
                             <p>{{v.person.name}}</p>
-                            <p>{{v.person.power}}</p>
+<!--                            <p>{{v.person.power}}</p>-->
                             <div>
                             <span class="weizhi-cell" v-for="w in v.person.weizhi" :key="w"
                                   :style="{color:w===v.weizhi?'red':''}">{{w}}</span>
@@ -26,7 +26,7 @@
                 <div class="cell" v-for="(v,i) in right" :key="v.weizhi">
                     <div>
                         <p>{{v.person.name}}</p>
-                        <p>{{v.person.power}}</p>
+<!--                        <p>{{v.person.power}}</p>-->
                         <div>
                             <span class="weizhi-cell" v-for="w in v.person.weizhi" :key="w"
                                   :style="{color:w===v.weizhi?'red':''}">{{w}}</span>

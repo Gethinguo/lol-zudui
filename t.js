@@ -6,11 +6,11 @@ const fs = require("fs");
 let filePath = 'data/srsrecord'
 
 //测试157
-// const ip = "172.16.200.157";
-// const port = "50007";
-// const fileIp = "172.16.200.157";
-// const filePort = "22";
-// filePath = 'data/casair_nginx/html'
+const ip = "172.16.200.157";
+const port = "50007";
+const fileIp = "172.16.200.157";
+const filePort = "22";
+filePath = 'data/casair_nginx/html'
 
 //三里河生产的
 // const ip = "172.16.1.186";
@@ -27,11 +27,11 @@ let filePath = 'data/srsrecord'
 // filePath = 'data/casair_nginx/html'
 
 // 刘家村
-const ip = "117.132.2.130";
-const port = "50007";
-const fileIp = "117.132.2.130";
-const filePort = "22";
-filePath = 'casair_nginx/html'
+// const ip = "117.132.2.130";
+// const port = "50007";
+// const fileIp = "117.132.2.130";
+// const filePort = "22";
+// filePath = 'casair_nginx/html'
 
 
 let did = `lol-zudui`;
