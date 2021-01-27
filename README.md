@@ -33,14 +33,6 @@ scp -P 22 -r public/json root@117.132.2.130:/casair_nginx/html/lol-zudui
 [发布者](http://zd-test.cas-air.cn/?type=0#/)
 [参与者](http://zd-test.cas-air.cn/)
 
-### 163环境 不好使
-[发布者](http://117.132.4.163:22020/lol-zudui/?type=0#/)
-[参与者](http://117.132.4.163:22020/lol-zudui/#/)
-
-### 130 环境
-
-[发布者](http://117.132.2.130:22020/lol-zudui/?type=0#/)
-[参与者](http://117.132.2.130:22020/lol-zudui/#/)
 
 ## 预览
 ![发布者](./doc/preview.jpg)

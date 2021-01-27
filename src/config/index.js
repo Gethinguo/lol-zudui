@@ -7,8 +7,8 @@ export default {
      * @description api请求基础路径
      */
     baseUrl: {
-        // dev: 'http://localhost:50007/',
-        dev: 'http://zd-test.cas-air.cn/gw/',
+        dev: 'http://localhost:50007/',
+        // dev: 'http://zd-test.cas-air.cn/gw/',
         // pro: config.baseUrl,
         pro: '/gw/',
     },

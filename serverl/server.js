@@ -11,14 +11,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 let zudui = ''
+let time = ''
 
 app.get('/getZuHe', function (req, res) {
-    res.send(zudui)
+    res.send({zudui,time})
 })
 app.post('/setZudui', async function (req, res) {
     if (req.body.zudui) {
         console.log(req.body.zudui)
         zudui = req.body.zudui
+        time = getTime()
     }
     res.send('200')
 })
@@ -30,3 +32,16 @@ let host = server.address().address
 
 let port = server.address().port
 console.log(host + ':' + port);
+
+function getTime() {
+
+    let LJ = '/'
+
+    let t = new Date()
+    const Y = (t.getFullYear())
+    const M = (t.getMonth() + 1)
+    const D = (t.getDate())
+    const h = (t.getHours())
+    const m = (t.getMinutes())
+    return Y + LJ + M + LJ + D + ' ' + h + ':' + m
+}

@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <div class="title">
-            <p>对战结果</p>
+            <p>对战结果  (发布时间：{{time}})</p>
         </div>
         <div class="content">
             <div class="left">
@@ -9,7 +9,7 @@
                     <div class="cell" v-for="(v,i) in left" :key="v.weizhi">
                         <div>
                             <p>{{v.person.name}}</p>
-<!--                            <p>{{v.person.power}}</p>-->
+                            <!--                            <p>{{v.person.power}}</p>-->
                             <div>
                             <span class="weizhi-cell" v-for="w in v.person.weizhi" :key="w"
                                   :style="{color:w===v.weizhi?'red':''}">{{w}}</span>
@@ -26,7 +26,7 @@
                 <div class="cell" v-for="(v,i) in right" :key="v.weizhi">
                     <div>
                         <p>{{v.person.name}}</p>
-<!--                        <p>{{v.person.power}}</p>-->
+                        <!--                        <p>{{v.person.power}}</p>-->
                         <div>
                             <span class="weizhi-cell" v-for="w in v.person.weizhi" :key="w"
                                   :style="{color:w===v.weizhi?'red':''}">{{w}}</span>
@@ -43,11 +43,13 @@
 </template>
 
 <script>
-    import {zudui_suanfa, _power_sum} from '@/libs/zudui'
+    import {_power_sum} from '@/libs/zudui'
+
     export default {
         name: "index",
         data() {
             return {
+                time:null,
                 left: [
                     {weizhi: '上', person: {}},
                     {weizhi: '野', person: {}},
@@ -77,11 +79,12 @@
         methods: {
             async getData() {
                 const re = await this.$fetch.get('getZuHe')
-                if(re){
-                    this.left = re.left
-                    this.right = re.right
+                if (re && re.zudui) {
+                    this.left = re.zudui.left
+                    this.right = re.zudui.right
+                    this.time = re.time
                     this.getNewPower()
-                }else{
+                } else {
                     alert('还没组队，请组队者编排！')
                 }
 
@@ -89,7 +92,7 @@
             /**
              * 重新计算战斗力
              */
-            getNewPower(){
+            getNewPower() {
                 let arr1 = this.left.map((p) => Number(p.person.power))
                 let arr2 = this.right.map((p) => Number(p.person.power))
                 this.power1 = _power_sum(arr1)
@@ -122,8 +125,8 @@
 </script>
 
 <style scoped lang="less">
-    .title{
-        p{
+    .title {
+        p {
             font-size: 30px;
             font-weight: bold;
             margin: 50px 0;
@@ -158,6 +161,7 @@
                 margin: 0 0 20px 0;
             }
         }
+
         .cell {
             width: 180px;
 

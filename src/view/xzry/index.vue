@@ -11,17 +11,19 @@
                 </div>
             </div>
         </div>
-        <div class="add_one">
-            <input type="text" v-model="form.name" placeholder="请输入姓名">
-            <input type="number" v-model="form.power" placeholder="请输入战力">
-            <input type="text" v-model="form.weizhi" placeholder="请输入位置(用,隔开)">
-            <div class="btn" @click="addOne">临时加一个</div>
-        </div>
         <div>
             <p>已选择人数：{{selected.length}}</p>
         </div>
         <div class="next" @click="next">
             下一步
+        </div>
+
+        <div class="add_one">
+            <p>临时添加人员</p>
+            <input type="text" v-model="form.name" placeholder="请输入姓名">
+            <input type="number" v-model="form.power" placeholder="请输入战力">
+            <input type="text" v-model="form.weizhi" placeholder="请输入位置(用,隔开)">
+            <div class="btn" @click="addOne">临时加一个</div>
         </div>
     </div>
 </template>
@@ -166,10 +168,15 @@
     }
 
     .add_one {
-        margin: 10px 0;
+        margin: 30px 0;
         padding: 15px;
         border: 2px solid #e3e3e3;
 
+        p{
+            font-size: 25px;
+            font-weight: bold;
+            padding: 0 0 10px 0;
+        }
         input {
             height: 50px;
             margin: 0 20px 0 0;
