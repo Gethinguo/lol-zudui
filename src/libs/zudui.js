@@ -1,7 +1,7 @@
 const positions = ['野', '中', 'AD', '辅', '上', '野', '中', 'AD', '辅']
 const positionsObj = _get_positionsObj()
 
-export const zudui_suanfa = (persons) => {
+export const zudui_suanfa = (persons, someTj) => {
     /** 结果0-满人 */
     let result0 = persons.filter((per) => per.weizhi.includes('上')).map((v) => [v])
     console.log('结果0')
@@ -65,15 +65,57 @@ export const zudui_suanfa = (persons) => {
             wzPow: wzPor1 + wzPor2,
         }
     })
+    // 如果有限制条件，先限制所有条件
+    // 先限制队伍情况
+    let reslutFilter = null
+    if (someTj.selected11 && someTj.selected11.length > 1) {
+        // 限制在一队的条件,2边都限制
+        console.log('需要限制的是2')
+        console.log(someTj.selected11)
+        console.log(someTj.selected12)
+        reslutFilter = result1.filter(v => {
+            let value5 = v.persons.slice(0, 5)
+            let value510 = v.persons.slice(5)
+            let fh = true // 符不符合条件
+            someTj.selected11.forEach(s => {
+                if (value5.indexOf(s) < 0) {
+                    fh = false
+                }
+            })
+            if (someTj.selected12 && someTj.selected12.length) {
+                someTj.selected12.forEach(s => {
+                    if (value510.indexOf(s) < 0) {
+                        fh = false
+                    }
+                })
+            }
+            return fh
+        })
+        // return resSort(reslut2).slice(0, 100)
+    }
+    // 再限制对位情况
+    let reslutFilter2 = null
+    if (someTj.selected2 && someTj.selected2.length) {
+        reslutFilter2 = (reslutFilter || result1).filter(v => {
+            let fh = true // 符不符合条件
+            someTj.selected2.forEach(dw => {
+                // 有多个对位条件
+                let p1 = dw[0]
+                let p2 = dw[1]
+                // 这个判断= 5 的时候表示对位成功
+                let abs = Math.abs(v.persons.indexOf(p1) - v.persons.indexOf(p2))
+                if ( abs!== 5) {
+                    fh = false
+                }
+            })
+            return fh
+        })
+    }
 
-    // 先按实力排序取实力相当的所有组合
-    result1.sort((a, b) => a.diff - b.diff)
-
-    let result2 = result1.filter((v) => v.diff === result1[0].diff)
-
-    // 再按位置
-    result2.sort((a, b) => b.wzPow - a.wzPow)
-    return result2.slice(0, 100)
+    const resall = reslutFilter2 || reslutFilter || result1
+    console.log('最后结果')
+    console.log(resall)
+    return resSort(resall).slice(0, 100)
 }
 
 // 工具函数
@@ -94,4 +136,24 @@ function _random_person(cannotset, persons) {
     const arr = persons.filter((v) => !cannotset.get(v.name))
     let re = [arr[Math.floor(Math.random() * arr.length)]]
     return re
+}
+
+function resSort(result) {
+
+    // 先按实力排序取实力相当的所有组合
+    // result1.sort((a, b) => a.diff - b.diff)
+    //
+    // let result2 = result1.filter((v) => v.diff === result1[0].diff)
+    //
+    //  再按位置
+    // result2.sort((a, b) => b.wzPow - a.wzPow)
+
+    // 多条件排序方式
+    return result.sort((a, b) => {
+        if (a.diff === b.diff) {
+            return b.wzPow - a.wzPow
+        } else {
+            return a.diff - b.diff
+        }
+    })
 }

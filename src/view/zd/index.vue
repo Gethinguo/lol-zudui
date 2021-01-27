@@ -1,6 +1,7 @@
 <template>
     <div class="main">
         <div class="caozuo">
+            <div class="btn" @click="add_tj">添加限制条件</div>
             <div class="btn" @click="reset_all">重新组队</div>
             <div class="btn" @click="next_zuhe">下个组合</div>
         </div>
@@ -54,17 +55,22 @@
             <p>3.可以鼠标拖动调整位置，战力和锲合度会变化</p>
             <p>4.点'确定结果'，就发布出去，别人可以看到了</p>
         </div>
-
+        <tjModel v-model:showModel="showTj" :lolPersons="lolPersons" @confirmTJ="confirmTJ"></tjModel>
     </div>
 </template>
 
 <script>
     import {zudui_suanfa, _power_sum} from '@/libs/zudui'
+    import tjModel from '@/components/tjModel'
 
     export default {
         name: "index",
         data() {
             return {
+                // 添加一些限制条件
+                showTj: false,
+                someTj: {},
+
                 lolPersons: [],
                 lolPersonsObj: {},
 
@@ -103,6 +109,7 @@
                 dragDownIndex: 0,
             }
         },
+        components: {tjModel},
         mounted() {
             this.lolPersons = JSON.parse(localStorage.getItem('lolPersons'))
             this.lolPersons.forEach(v => {
@@ -110,14 +117,20 @@
             })
 
             this.reset_all()
-
         },
         methods: {
             zudui() {
-                this.allzuhe = zudui_suanfa(this.lolPersons)
+                const re = zudui_suanfa(this.lolPersons, this.someTj)
                 console.log('结果')
                 console.log(this.allzuhe)
-                this.getRes()
+
+                if (re && re.length > 0) {
+                    this.allzuhe = re
+                    this.getRes()
+                } else {
+                    alert('无组队结果')
+                }
+
             },
             getRes() {
                 const zuhe = this.allzuhe[this.allzuheIndex]
@@ -159,6 +172,15 @@
                     alert('先选择参赛人员')
                 }
                 this.zudui()
+            },
+            add_tj() {
+                this.showTj = true
+            },
+            confirmTJ(tj) {
+                console.log('条件是')
+                console.log(tj)
+                this.someTj = tj
+                this.reset_all()
             },
             next_zuhe() {
                 this.allzuheIndex++
@@ -212,7 +234,7 @@
             /**
              * 重新计算战斗力
              */
-            getNewPower(){
+            getNewPower() {
                 let arr1 = this.left.map((p) => Number(p.person.power))
                 let arr2 = this.right.map((p) => Number(p.person.power))
                 this.power1 = _power_sum(arr1)
@@ -245,12 +267,12 @@
                     left: this.left,
                     right: this.right,
                 }
-                const re =await this.$fetch.post('setZudui', {zudui})
+                const re = await this.$fetch.post('setZudui', {zudui})
                 console.log('几个')
                 console.log(re)
-                if(re == 200){
+                if (re == 200) {
                     alert('发布成功！')
-                }else{
+                } else {
                     alert('出问题了！')
                 }
             }
