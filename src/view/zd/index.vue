@@ -54,6 +54,8 @@
             <p>2.点'重新组队'会全部重排，耗时很多</p>
             <p>3.可以鼠标拖动调整位置，战力和锲合度会变化</p>
             <p>4.点'确定结果'，就发布出去，别人可以看到了</p>
+            <p>5.添加了限制条件，可以设置谁和谁必须对位（2个人得都能打同一个位置）</p>
+            <p>6.添加了限制条件，可以设置谁和谁必须一队</p>
         </div>
         <tjModel v-model:showModel="showTj" :lolPersons="lolPersons" @confirmTJ="confirmTJ"></tjModel>
     </div>

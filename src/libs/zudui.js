@@ -99,13 +99,15 @@ export const zudui_suanfa = (persons, someTj) => {
         reslutFilter2 = (reslutFilter || result1).filter(v => {
             let fh = true // 符不符合条件
             someTj.selected2.forEach(dw => {
-                // 有多个对位条件
-                let p1 = dw[0]
-                let p2 = dw[1]
-                // 这个判断= 5 的时候表示对位成功
-                let abs = Math.abs(v.persons.indexOf(p1) - v.persons.indexOf(p2))
-                if ( abs!== 5) {
-                    fh = false
+                if(dw.length === 2){
+                    // 有多个对位条件
+                    let p1 = dw[0]
+                    let p2 = dw[1]
+                    // 这个判断= 5 的时候表示对位成功
+                    let abs = Math.abs(v.persons.indexOf(p1) - v.persons.indexOf(p2))
+                    if (abs !== 5) {
+                        fh = false
+                    }
                 }
             })
             return fh

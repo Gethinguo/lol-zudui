@@ -115,6 +115,18 @@
                 }
             },
             confirm() {
+                let fuhe = true
+                if(this.selected2 && this.selected2.length){
+                    this.selected2.forEach(v=>{
+                        if(v.length !== 2){
+                            fuhe = false
+                        }
+                    })
+                }
+                if(!fuhe){
+                    alert('对位情况都必须是2人')
+                    return
+                }
                 this.$emit('confirmTJ', {
                     selected11: this.selected11,
                     selected12: this.selected12,
